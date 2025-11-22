@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đăng nhập</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #eef2f3;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .login-container {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 320px;
+            text-align: center;
+        }
+        h2 { color: #004080; }
+        .input-container { position: relative; width: 100%; }
+        input {
+            width: 90%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        .toggle-password {
+            position: absolute;
+            right: 15px;
+            top: 17px;
+            cursor: pointer;
+            font-size: 18px;
+        }
+        button {
+            background: #004080;
+            color: white;
+            padding: 10px;
+            width: 100%;
+            border: none;
+            border-radius: 5px;
+            font-size: 18px;
+            cursor: pointer;
+        }
+        button:hover { background: #002a5c; }
+        .message { margin-top: 10px; }
+    </style>
+
+    <script>
+        let attempts = 0;
+
+        const users = [
+            { username: "oanh", password: "23585", role: "teacher",
+              url: "https://sites.google.com/view/nbkeducationdt/home" },
+
+            { username: "hs", password: "123", role: "student",
+              url: "https://sites.google.com/view/onthithpt2026/ki%E1%BB%83m-tra" }
+        ];
+
+        function validateLogin() {
+            const username = document.getElementById("username").value.trim();
+            const password = document.getElementById("password").value.trim();
+            const message = document.getElementById("message");
+
+            const user = users.find(u => u.username === username && u.password === password);
+
+            if (user) {
+                message.style.color = "green";
+                message.textContent = "Đăng nhập thành công! Đang chuyển hướng...";
+                setTimeout(() => { window.location.href = user.url; }, 1500);
+            } else {
+                attempts++;
+                message.style.color = "red";
+                message.textContent = `Sai tên đăng nhập hoặc mật khẩu! (Lần ${attempts})`;
+
+                if (attempts >= 3) {
+                    message.textContent = "Bạn đã nhập sai 3 lần. Hãy thử lại!";
+                    document.getElementById("username").value = "";
+                    document.getElementById("password").value = "";
+                    attempts = 0;
+                }
+            }
+        }
+
+        function togglePassword() {
+            const passwordField = document.getElementById("password");
+            const toggleIcon = document.getElementById("togglePassword");
+
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                toggleIcon.textContent = "👁";
+            } else {
+                passwordField.type = "password";
+                toggleIcon.textContent = "👁‍🗨";
+            }
+        }
+    </script>
+</head>
+
+<body>
+    <div class="login-container">
+        <h2>Đăng nhập</h2>
+        <input type="text" id="username" placeholder="Tên đăng nhập">
+        <div class="input-container">
+            <input type="password" id="password" placeholder="Mật khẩu">
+            <span id="togglePassword" class="toggle-password" onclick="togglePassword()">👁‍🗨</span>
+        </div>
+        <button onclick="validateLogin()">Đăng nhập</button>
+        <p id="message" class="message"></p>
+    </div>
+</body>
+</html>
