@@ -54,57 +54,58 @@
         .message { margin-top: 10px; }
     </style>
 
-    <script>
-        let attempts = 0;
+<script>
+let attempts = 0;
 
-        const users = [
-            { username: "oanh", password: "23585", role: "teacher",
-              url: "https://sites.google.com/view/nbkeducationdt/home" },
+const users = [
+    { username: "oanh", password: "23585", role: "teacher",
+      url: "https://sites.google.com/view/nbkeducationdt/home" },
 
-            { username: "hs12", password: "123", role: "student",
-              url: "https://sites.google.com/view/onthithpt2026/ki%E1%BB%83m-tra" }
-            { username: "hs10", password: "123", role: "student",
-              url: "https://sites.google.com/view/edutoan10/trang-ch%E1%BB%A7" }
-        ];
+    { username: "hs12", password: "123", role: "student",
+      url: "https://sites.google.com/view/onthithpt2026/ki%E1%BB%83m-tra" }, // <== dấu phẩy
 
-        function validateLogin() {
-            const username = document.getElementById("username").value.trim();
-            const password = document.getElementById("password").value.trim();
-            const message = document.getElementById("message");
+    { username: "hs10", password: "123", role: "student",
+      url: "https://sites.google.com/view/edutoan10/trang-ch%E1%BB%A7" }
+];
 
-            const user = users.find(u => u.username === username && u.password === password);
+function validateLogin() {
+    const username = document.getElementById("username").value.trim();
+    const password = document.getElementById("password").value.trim();
+    const message = document.getElementById("message");
 
-            if (user) {
-                message.style.color = "green";
-                message.textContent = "Đăng nhập thành công! Đang chuyển hướng...";
-                setTimeout(() => { window.location.href = user.url; }, 1500);
-            } else {
-                attempts++;
-                message.style.color = "red";
-                message.textContent = `Sai tên đăng nhập hoặc mật khẩu! (Lần ${attempts})`;
+    const user = users.find(u => u.username === username && u.password === password);
 
-                if (attempts >= 3) {
-                    message.textContent = "Bạn đã nhập sai 3 lần. Hãy thử lại!";
-                    document.getElementById("username").value = "";
-                    document.getElementById("password").value = "";
-                    attempts = 0;
-                }
-            }
+    if (user) {
+        message.style.color = "green";
+        message.textContent = "Đăng nhập thành công! Đang chuyển hướng...";
+        setTimeout(() => { window.location.href = user.url; }, 1500);
+    } else {
+        attempts++;
+        message.style.color = "red";
+        message.textContent = `Sai tên đăng nhập hoặc mật khẩu! (Lần ${attempts})`;
+
+        if (attempts >= 3) {
+            message.textContent = "Bạn đã nhập sai 3 lần. Hãy thử lại!";
+            document.getElementById("username").value = "";
+            document.getElementById("password").value = "";
+            attempts = 0;
         }
+    }
+}
 
-        function togglePassword() {
-            const passwordField = document.getElementById("password");
-            const toggleIcon = document.getElementById("togglePassword");
+function togglePassword() {
+    const passwordField = document.getElementById("password");
+    const toggleIcon = document.getElementById("togglePassword");
 
-            if (passwordField.type === "password") {
-                passwordField.type = "text";
-                toggleIcon.textContent = "👁";
-            } else {
-                passwordField.type = "password";
-                toggleIcon.textContent = "👁‍🗨";
-            }
-        }
-    </script>
+    if (passwordField.type === "password") {
+        passwordField.type = "text";
+        toggleIcon.textContent = "👁";
+    } else {
+        passwordField.type = "password";
+        toggleIcon.textContent = "👁‍🗨";
+    }
+}
+</script>
 </head>
 
 <body>
